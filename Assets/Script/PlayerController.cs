@@ -9,15 +9,16 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public Animator pAni;
 
-    private Rigidbody2D rb;
-    private Animator pAni;
+    private Rigidbody2D rb;  
     private bool isGrounded;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         pAni = GetComponent<Animator>();
+        pAni.SetBool("move", false);
     }
    
     // Update is called once per frame
@@ -26,13 +27,28 @@ public class PlayerController : MonoBehaviour
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
+
         if (moveInput < 0)
-            transform.localScale = new Vector3(3f, 3f, 3f);
-
+            transform.localScale = new Vector3(1f, 1f, 1f);
         if (moveInput > 0)
-            transform.localScale = new Vector3(-3f, 3f, 3f);
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+           
 
+        if (moveInput < 0)
+        {
+          pAni.SetBool("move", true);
+        }
+        else if (moveInput > 0)
+        {
+         pAni.SetBool("move", true);
 
+        }
+        else
+        {
+        pAni.SetBool("move", false);
+        }
+         
+           
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 
         if(isGrounded && Input.GetKeyDown(KeyCode.Space))
