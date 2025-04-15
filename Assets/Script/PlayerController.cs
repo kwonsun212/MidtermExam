@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false; //달리기 중인지 여부
     private bool canSprint = true; // 대시 가능 여부
 
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -31,7 +33,8 @@ public class PlayerController : MonoBehaviour
         sprintTimer = 0f; // 타이머 초기화
         currentSpeed = moveSpeed;
     }
-   
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -68,24 +71,29 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         //방향전환
-        if (moveInput < 0)
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        if (moveInput > 0)
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-           
+        transform.Translate(new Vector3(Mathf.Abs(moveInput) * Time.deltaTime, 0, 0));
+        if(moveInput > 0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else if(moveInput < 0)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+
 
         if (moveInput < 0)
         {
-          pAni.SetBool("move", true);
+            pAni.SetBool("move", true);
         }
         else if (moveInput > 0)
         {
-         pAni.SetBool("move", true);
+            pAni.SetBool("move", true);
 
         }
         else
         {
-        pAni.SetBool("move", false);
+            pAni.SetBool("move", false);
         }
          
            
@@ -97,6 +105,8 @@ public class PlayerController : MonoBehaviour
             pAni.SetTrigger("JumpAction");
         }
 
+
+       
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

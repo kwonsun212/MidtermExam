@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
@@ -31,7 +29,7 @@ public abstract class Entity : MonoBehaviour
     public abstract float MaxMP { get; }        //최대 마나
     public abstract float MPRecovery { get; }   //초당 마나 회복량
 
-    protected void setup()
+    protected void Setup()
     {
         HP = MaxHP;
         MP = MaxMP;
