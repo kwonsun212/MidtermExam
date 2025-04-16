@@ -39,7 +39,19 @@ public class PlayerController : MonoBehaviour
 
     [Header("점프 개선 설정")]
     public float falMultiplier = 2.5f;          
-    public float lowJumpMultiplier = 2.0f;     
+    public float lowJumpMultiplier = 2.0f;
+
+    [Header("스피드 버프")]
+    public float speedIncrease = 3.0f;
+    public float speedDuration = 5.0f;
+
+    private float originalMoveSpeed;
+    private float speedTimer = 0f;
+    private bool isSpeedBoosted = false;
+
+    public GameObject SpeedTimerUI;
+    public TextMeshProUGUI SpeedTimerText;
+
 
 
 
@@ -52,9 +64,13 @@ public class PlayerController : MonoBehaviour
         currentSpeed = moveSpeed;
 
         originalJumpForce = jumpForce;
+        originalMoveSpeed = moveSpeed;
 
         if (JumpTimerUI != null)
             JumpTimerUI.SetActive(false);
+
+        if (SpeedTimerUI != null)
+            SpeedTimerUI.SetActive(false);
     }
 
 
@@ -83,7 +99,30 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-            float moveHorizontal = Input.GetAxis("Horizontal");
+
+        if (isSpeedBoosted)
+        {
+            speedTimer += Time.deltaTime;
+
+            float timeLeft = Mathf.Clamp(speedDuration - speedTimer, 0f, speedDuration);
+            if (SpeedTimerText != null)
+                SpeedTimerText.text = timeLeft.ToString("F1");
+
+            if (speedTimer >= speedDuration)
+            {
+                moveSpeed = originalMoveSpeed;
+                speedTimer = 0f;
+                isSpeedBoosted = false;
+
+                if (SpeedTimerUI != null)
+                    SpeedTimerUI.SetActive(false);
+            }
+        }
+
+
+
+
+        float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 
 
@@ -202,6 +241,17 @@ public class PlayerController : MonoBehaviour
 
             if (JumpTimerUI != null)
                 JumpTimerUI.SetActive(true);
+
+            Destroy(collision.gameObject);
+        }
+        if (collision.CompareTag("Item_Speed"))
+        {
+            moveSpeed = originalMoveSpeed + speedIncrease;
+            isSpeedBoosted = true;
+            speedTimer = 0f;
+
+            if (SpeedTimerUI != null)
+                SpeedTimerUI.SetActive(true);
 
             Destroy(collision.gameObject);
         }
