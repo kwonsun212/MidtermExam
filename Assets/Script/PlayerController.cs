@@ -1,13 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed; //이동 속도
-    public float jumpForce = 10f;
+    public float jumpForce = 10f; //기본 점프 힘
+    public float JumpIncrease = 4.0f; //아이템으로 증가할 점프 힘
+    public float JumpDuration = 5.0f; //버프 지속 시간
+
+    private float originalJumpForce;
+    private float boostTimer = 0f;
+    private bool isBoosted = false;
+
+    public GameObject JumpTimerUI; //점프 UI 오브젝트
+    public TextMeshProUGUI JumpTimerText;     //점프 UI 안의 텍스트 
+
     public Transform groundCheck;
     public LayerMask groundLayer;
     public Animator pAni;
@@ -25,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
 
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,12 +45,42 @@ public class PlayerController : MonoBehaviour
         pAni.SetBool("move", false);
         sprintTimer = 0f; // 타이머 초기화
         currentSpeed = moveSpeed;
+
+        originalJumpForce = jumpForce;
+
+        if (JumpTimerUI != null)
+            JumpTimerUI.SetActive(false);
     }
     
 
     // Update is called once per frame
     void Update()
     {
+        if (isBoosted)
+        {
+            boostTimer += Time.deltaTime;
+
+            float timeLeft = Mathf.Clamp(JumpDuration - boostTimer, 0f, JumpDuration);
+            if (JumpTimerText != null)
+                JumpTimerText.text = timeLeft.ToString("F1");
+
+
+
+            if (boostTimer >= JumpDuration)
+            {
+                jumpForce = originalJumpForce; // 점프력 원래대로 복구
+                isBoosted = false;
+                boostTimer = 0f;
+
+                if (JumpTimerUI != null)
+                    JumpTimerUI.SetActive(false);
+
+
+            }
+        }
+
+
+
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         if(!canSprint)
@@ -124,5 +167,18 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+
+        if(collision.CompareTag("Item_Jump"))
+        {
+            jumpForce = originalJumpForce + JumpIncrease;
+            isBoosted = true;
+            boostTimer = 0f;
+
+            if (JumpTimerUI != null)
+                JumpTimerUI.SetActive(true);
+
+            Destroy(collision.gameObject);
+        }
+
     }
 }

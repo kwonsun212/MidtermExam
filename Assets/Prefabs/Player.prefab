@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4757411994454502559}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,13 +136,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 9
   jumpForce: 7
+  JumpIncrease: 4
+  JumpDuration: 5
   groundCheck: {fileID: 8598737383451148342}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   pAni: {fileID: 0}
-  sprint: 5
-  sprintDuration: 0.15
+  sprint: 25
+  sprintDuration: 0.02
   sprintCooldown: 0.6
 --- !u!50 &6390550014530527678
 Rigidbody2D:
