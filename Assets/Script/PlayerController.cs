@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false; //달리기 중인지 여부
     private bool canSprint = true; // 대시 가능 여부
 
+    [Header("점프 개선 설정")]
+    public float falMultiplier = 2.5f;          //하강 중력 배율
+    public float lowJumpMultiplier = 2.0f;      //짧은 점프 배율
 
 
     private void Awake()
@@ -38,6 +41,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //움직임 입력
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        //이동 방향 벡터
+        Vector2 movement = new Vector3(moveHorizontal, 0, moveVertical);    //이동 방향 감지
+
+        //속도로 직접 이동
+        rb.velocity = new Vector3(moveHorizontal * moveSpeed, rb.velocity.y, moveVertical * moveSpeed);
+
+        //착시 점프 높이 구현
+        if (rb.velocity.y < 0)
+        {
+            //하강 시 중력 강화
+            rb.velocity += Vector2.up * Physics.gravity.y * (falMultiplier - 1) * Time.deltaTime; //하강 시 중력 강화
+        }
+        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rb.velocity += Vector2.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime; // 상승중 점프 버튼을 때면 낮게 점프
+
+        }
+
+
+
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         if(!canSprint)
