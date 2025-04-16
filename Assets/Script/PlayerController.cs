@@ -8,33 +8,36 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed; //ÀÌµ¿ ¼Óµµ
-    public float jumpForce = 10f; //±âº» Á¡ÇÁ Èû
-    public float JumpIncrease = 4.0f; //¾ÆÀÌÅÛÀ¸·Î Áõ°¡ÇÒ Á¡ÇÁ Èû
-    public float JumpDuration = 5.0f; //¹öÇÁ Áö¼Ó ½Ã°£
+    public float moveSpeed; //ï¿½Ìµï¿½ ï¿½Óµï¿½
+    public float jumpForce = 10f; //ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    public float JumpIncrease = 4.0f; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    public float JumpDuration = 5.0f; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
     private float originalJumpForce;
     private float boostTimer = 0f;
     private bool isBoosted = false;
 
-    public GameObject JumpTimerUI; //Á¡ÇÁ UI ¿ÀºêÁ§Æ®
-    public TextMeshProUGUI JumpTimerText;     //Á¡ÇÁ UI ¾ÈÀÇ ÅØ½ºÆ® 
+    public GameObject JumpTimerUI; //ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public TextMeshProUGUI JumpTimerText;     //ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® 
 
     public Transform groundCheck;
     public LayerMask groundLayer;
     public Animator pAni;
-    public float sprint = 4f; // ´ë½Ã ¼Óµµ ¹èÀ²
-    public float sprintDuration = 1f; // ´Þ¸®±â Áö¼Ó ½Ã°£ (1ÃÊ)
-    public float sprintCooldown = 5f; // ´ë½Ã Äð´Ù¿î ½Ã°£ (5ÃÊ)
+    public float sprint = 4f; // ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float sprintDuration = 1f; // ï¿½Þ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (1ï¿½ï¿½)
+    public float sprintCooldown = 5f; // ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¿ï¿½ ï¿½Ã°ï¿½ (5ï¿½ï¿½)
 
     private Rigidbody2D rb;  
     private bool isGrounded;
-    private float currentSpeed = 5f; // ÇöÀç ÀÌµ¿ ¼Óµµ
-    private float sprintTimer; // ´ë½Ã Å¸ÀÌ¸Ó
-    private float sprintStart; // ´ë½Ã ½ÃÀÛ ½Ã°£
-    private bool isSprinting = false; //´Þ¸®±â ÁßÀÎÁö ¿©ºÎ
-    private bool canSprint = true; // ´ë½Ã °¡´É ¿©ºÎ
+    private float currentSpeed = 5f; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½
+    private float sprintTimer; // ï¿½ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½
+    private float sprintStart; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    private bool isSprinting = false; //ï¿½Þ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private bool canSprint = true; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+    public float falMultiplier = 2.5f;          //ï¿½Ï°ï¿½ ï¿½ß·ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float lowJumpMultiplier = 2.0f;      //Âªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
 
@@ -43,7 +46,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         pAni = GetComponent<Animator>();
         pAni.SetBool("move", false);
-        sprintTimer = 0f; // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+        sprintTimer = 0f; // Å¸ï¿½Ì¸ï¿½ ï¿½Ê±ï¿½È­
         currentSpeed = moveSpeed;
 
         originalJumpForce = jumpForce;
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
             if (boostTimer >= JumpDuration)
             {
-                jumpForce = originalJumpForce; // Á¡ÇÁ·Â ¿ø·¡´ë·Î º¹±¸
+                jumpForce = originalJumpForce; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 isBoosted = false;
                 boostTimer = 0f;
 
@@ -77,6 +80,27 @@ public class PlayerController : MonoBehaviour
 
 
             }
+
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Vector2 movement = new Vector3(moveHorizontal, 0, moveVertical);    //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+        //ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+        rb.velocity = new Vector3(moveHorizontal * moveSpeed, rb.velocity.y, moveVertical * moveSpeed);
+
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (rb.velocity.y < 0)
+        {
+            //ï¿½Ï°ï¿½ ï¿½ï¿½ ï¿½ß·ï¿½ ï¿½ï¿½È­
+            rb.velocity += Vector2.up * Physics.gravity.y * (falMultiplier - 1) * Time.deltaTime; //ï¿½Ï°ï¿½ ï¿½ï¿½ ï¿½ß·ï¿½ ï¿½ï¿½È­
+        }
+        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rb.velocity += Vector2.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime; // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
         }
 
 
@@ -113,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        //¹æÇâÀüÈ¯
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¯
         transform.Translate(new Vector3(Mathf.Abs(moveInput) * Time.deltaTime, 0, 0));
         if(moveInput > 0)
         {
