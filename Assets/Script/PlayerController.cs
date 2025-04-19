@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI InvincibleTimerText;
 
     private float invincibleTimer = 0f;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     public float invincibilityDuration = 3.0f;
 
 
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
                 pAni.SetBool("sprint", true);
                 canSprint = false;
 
-                playerHit.MP -= 100f; // MP 100 소모
+                playerHit.MP -= 25f; // MP 100 소모
 
                 Instantiate(SprintE, Sprintpos.position, transform.rotation);
                 Invoke("SprintE1", 0.03f);
@@ -282,16 +282,19 @@ public class PlayerController : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Instantiate(SprintE, Sprintpos.position, transform.rotation);
-                Invoke("SprintE1", 0.03f);
-            }
+                if (playerHit != null && playerHit.MP >= 25f)
+                {
+                    Instantiate(SprintE, Sprintpos.position, transform.rotation);
+                    Invoke("SprintE1", 0.03f);
+                }
+             }
             
 
     }
        void SprintE1()
-            {
-                Instantiate(SprintE, Sprintpos.position, transform.rotation);
-            }
+       {
+            Instantiate(SprintE, Sprintpos.position, transform.rotation);
+       }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -317,7 +320,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!isInvincible)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 죽음
+                
             }
             else
             {

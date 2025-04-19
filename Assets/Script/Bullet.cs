@@ -5,7 +5,22 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public GameObject explosionEffect; // Æø¹ß ÀÌÆåÆ® ÇÁ¸®ÆÕ
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            // Æø¹ß ÀÌÆåÆ®¸¦ »ý¼º
+            if (explosionEffect != null)
+            {
+                Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            }
+
+            // Bullet Á¦°Å
+            Destroy(gameObject);
+        }
+    }
 
     public float BulletSpeed;
     // Start is called before the first frame update

@@ -2032,8 +2032,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCE58\uD0A8\uC740 \uC601\uC5B4\uB85C \uCE58\uD0A8\uC785\uB2C8\uB2E4 \n\uB3C4\uC6C0\uC774
-    \uB418\uC5C8\uC73C\uBA74 \uC88B\uACA0\uC5B4\uC694 :)"
+  m_text: "A = \uC67C\uCABD\uC73C\uB85C \uC774\uB3D9\nD = \uC624\uB978\uCABD\uC73C\uB85C\uC774\uB3D9\nSpace
+    = \uC810\uD504\nLeft Shift = \uD154\uD3EC\n\uC88C\uD074\uB9AD = \uD654\uC5FC\uAD6C
+    \uBC1C\uC0AC\n\uD654\uC5FC\uAD6C\uB294 \uC801\uB4E4\uC744 \uC8FD\uC785\uB2C8\uB2E4\n\uB300\uBD80\uBD84\uC758
+    \uC801\uB4E4\uC740 \uD55C\uBC29\uC5D0 \uC8FD\uC2B5\uB2C8\uB2E4 :)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1d40d200b34c1fc479fe9f6f2827abc7, type: 2}
   m_sharedMaterial: {fileID: -7324823582281494318, guid: 1d40d200b34c1fc479fe9f6f2827abc7, type: 2}

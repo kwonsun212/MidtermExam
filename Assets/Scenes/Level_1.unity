@@ -16798,28 +16798,6 @@ PrefabInstance:
       addedObject: {fileID: 884022199}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08393c1eeebcb80498be6881c69a5249, type: 3}
---- !u!114 &2704670471631812276 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7143838191921267795, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
-  m_PrefabInstance: {fileID: 4724870159624291979}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4008906565843439217 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7721525904149329076, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
-  m_PrefabInstance: {fileID: 4724870159624291979}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4142275048682086917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16875,19 +16853,27 @@ PrefabInstance:
     - target: {fileID: 7893128066488218576, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
       propertyPath: JumpTimerUI
       value: 
-      objectReference: {fileID: 7313868838978075383}
+      objectReference: {fileID: 4724870159624291985}
     - target: {fileID: 7893128066488218576, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
       propertyPath: SpeedTimerUI
       value: 
-      objectReference: {fileID: 7435515993034804604}
+      objectReference: {fileID: 4724870159624291983}
     - target: {fileID: 7893128066488218576, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
       propertyPath: JumpTimerText
       value: 
-      objectReference: {fileID: 4008906565843439217}
+      objectReference: {fileID: 4724870159624291984}
     - target: {fileID: 7893128066488218576, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
       propertyPath: SpeedTimerText
       value: 
-      objectReference: {fileID: 2704670471631812276}
+      objectReference: {fileID: 4724870159624291982}
+    - target: {fileID: 7893128066488218576, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
+      propertyPath: InvincibleTimerUI
+      value: 
+      objectReference: {fileID: 4724870159624291981}
+    - target: {fileID: 7893128066488218576, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
+      propertyPath: InvincibleTimerText
+      value: 
+      objectReference: {fileID: 4724870159624291980}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16949,11 +16935,63 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8577109042792561541, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+      propertyPath: A
+      value: 
+      objectReference: {fileID: 1429861150762607023}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+--- !u!114 &4724870159624291980 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 232141699328461445, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+  m_PrefabInstance: {fileID: 4724870159624291979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4724870159624291981 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1173251466838577562, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+  m_PrefabInstance: {fileID: 4724870159624291979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4724870159624291982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 650253391192812286, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+  m_PrefabInstance: {fileID: 4724870159624291979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4724870159624291983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1800586970172379196, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+  m_PrefabInstance: {fileID: 4724870159624291979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4724870159624291984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2941253510638400497, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+  m_PrefabInstance: {fileID: 4724870159624291979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4724870159624291985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2227459201332218007, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
+  m_PrefabInstance: {fileID: 4724870159624291979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6671239370139983450 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5278978348917346105, guid: 313f0e23ef9a74c439a44fbcfe487325, type: 3}
@@ -16965,16 +17003,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a643b8bfe7ed3e84aab1e09f13a579cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7313868838978075383 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8722428666925048776, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
-  m_PrefabInstance: {fileID: 4724870159624291979}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7435515993034804604 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8277400606642436821, guid: 04c1e11844ddbd24bb3c0b2dda85d705, type: 3}
-  m_PrefabInstance: {fileID: 4724870159624291979}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

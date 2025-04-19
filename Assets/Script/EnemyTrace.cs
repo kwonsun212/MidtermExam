@@ -41,4 +41,12 @@ public class EnemyTrace : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            Destroy(collision.gameObject); // ÃÑ¾Ëµµ Á¦°Å
+            Destroy(gameObject);
+        }
+    }
 }
