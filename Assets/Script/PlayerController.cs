@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : MonoBehaviour
 {
@@ -53,6 +54,30 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI SpeedTimerText;
 
 
+    [Header("점프 이펙트")]
+    public GameObject Jeffect;
+    public Transform Jumppos;
+
+    [Header("텔포 이펙트")]
+    public GameObject SprintE;
+    public Transform Sprintpos;
+
+
+    [Header("코요테 타임 설정")]
+    public float coyoteTime = 0.03f;
+    private float coyoteTimer;
+
+    [Header("무적 설정")]
+    public GameObject InvincibleTimerUI;
+    public TextMeshProUGUI InvincibleTimerText;
+
+    private float invincibleTimer = 0f;
+    private bool isInvincible = false;
+    public float invincibilityDuration = 3.0f;
+
+
+    private PlayerHit playerHit; //PlayerHit Mp 연결
+
 
 
     private void Awake()
@@ -66,17 +91,50 @@ public class PlayerController : MonoBehaviour
         originalJumpForce = jumpForce;
         originalMoveSpeed = moveSpeed;
 
+        playerHit = GetComponent<PlayerHit>();
+
         if (JumpTimerUI != null)
             JumpTimerUI.SetActive(false);
 
         if (SpeedTimerUI != null)
             SpeedTimerUI.SetActive(false);
+
+        if (InvincibleTimerUI != null)
+            InvincibleTimerUI.SetActive(false);
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        if (isInvincible)
+        {
+            invincibleTimer += Time.deltaTime;
+
+            float timeLeft = Mathf.Clamp(invincibilityDuration - invincibleTimer, 0f, invincibilityDuration);
+            if (InvincibleTimerText != null)
+                InvincibleTimerText.text = timeLeft.ToString("F1");
+
+            if (invincibleTimer >= invincibilityDuration)
+            {
+                isInvincible = false;
+                invincibleTimer = 0f;
+
+                if (InvincibleTimerUI != null)
+                    InvincibleTimerUI.SetActive(false);
+            }
+        }
+
+
+        if (isGrounded)
+        {
+            coyoteTimer = coyoteTime;
+        }
+        else
+        {
+            coyoteTimer -= Time.deltaTime;
+        }
+
         if (isBoosted)
         {
             boostTimer += Time.deltaTime;
@@ -165,13 +223,19 @@ public class PlayerController : MonoBehaviour
                 moveSpeed = currentSpeed;
             }
 
-            if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && canSprint)
+            if (Input.GetKey(KeyCode.LeftShift) && playerHit.MP >= 25f && canSprint)
             {
                 isSprinting = true;
                 sprintStart = Time.time;
                 moveSpeed = currentSpeed * sprint;
+
                 pAni.SetBool("sprint", true);
                 canSprint = false;
+
+                playerHit.MP -= 100f; // MP 100 소모
+
+                Instantiate(SprintE, Sprintpos.position, transform.rotation);
+                Invoke("SprintE1", 0.03f);
             }
 
 
@@ -206,21 +270,42 @@ public class PlayerController : MonoBehaviour
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 
-            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+            if (coyoteTimer > 0f && Input.GetKeyDown(KeyCode.Space))
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 pAni.SetTrigger("JumpAction");
-            }
 
-        
+            Instantiate(Jeffect, Jumppos.position, transform.rotation);
+
+            coyoteTimer = 0f;
+        }
+
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Instantiate(SprintE, Sprintpos.position, transform.rotation);
+                Invoke("SprintE1", 0.03f);
+            }
+            
+
     }
-       
+       void SprintE1()
+            {
+                Instantiate(SprintE, Sprintpos.position, transform.rotation);
+            }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Respawn"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (!isInvincible)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 죽음
+            }
+            else
+            {
+                // 무적 상태에서는 데미지 무시
+                Debug.Log("무적");
+            }
         }
 
         if(collision.CompareTag("Finish"))
@@ -230,10 +315,31 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (!isInvincible)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 죽음
+            }
+            else
+            {
+                // 무적 상태에서는 데미지 무시
+                Debug.Log("무적");
+            }
         }
 
-        if(collision.CompareTag("Item_Jump"))
+        if (collision.CompareTag("Trap"))
+        {
+            if (!isInvincible)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // 죽음
+            }
+            else
+            {
+                // 무적 상태에서는 데미지 무시
+                Debug.Log("무적");
+            }
+        }
+
+        if (collision.CompareTag("Item_Jump"))
         {
             jumpForce = originalJumpForce + JumpIncrease;
             isBoosted = true;
@@ -255,6 +361,15 @@ public class PlayerController : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
+        if (collision.CompareTag("Item_Invincible"))
+        {
+            isInvincible = true;
+            invincibleTimer = 0f;
 
+            if (InvincibleTimerUI != null)
+                InvincibleTimerUI.SetActive(true);
+
+            Destroy(collision.gameObject);
+        }
     }
 }

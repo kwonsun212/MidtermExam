@@ -9,6 +9,11 @@ TagManager:
   - obstacle
   - Item_Jump
   - Item_Speed
+  - Item_Invincible
+  - Trap
+  - Bullet
+  - bullet
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -46,6 +51,9 @@ TagManager:
   - name: Background
     uniqueID: 2461589617
     locked: 1
+  - name: Dungeun
+    uniqueID: 183444535
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

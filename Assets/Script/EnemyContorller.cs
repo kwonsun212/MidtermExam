@@ -31,5 +31,11 @@ public class EnemyContorller : MonoBehaviour
         {
             isMovingRight = !isMovingRight;
         }
+
+        if (collision.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
+        }
+
     }
 }
