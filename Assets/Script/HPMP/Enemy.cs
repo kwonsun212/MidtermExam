@@ -1,9 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Enemy : Entity
 {
+    float score;
+
     private SpriteRenderer spriteRenderer;
     private Transform player;
 
@@ -23,6 +26,8 @@ public class Enemy : Entity
         base.Setup();
 
         StartCoroutine(SpawnEnemyTraceRepeatedly());
+
+        score = 1000f;
     }
 
     // Update is called once per frame
@@ -35,6 +40,10 @@ public class Enemy : Entity
             int damage = Random.Range(1, 100);
             target.TakeDamage(damage);
         }
+
+        score -= Time.deltaTime;
+
+
     }
 
     void FollowPlayerWithDistance()
@@ -63,6 +72,8 @@ public class Enemy : Entity
 
         if (HP <= 0)
         {
+            HighScore.Tryset(SceneManager.GetActiveScene().buildIndex, (int)score);
+
 
             SceneManager.LoadScene("Ending");
             Destroy(gameObject); // HP가 0 이하가 되면 오브젝트 제거
