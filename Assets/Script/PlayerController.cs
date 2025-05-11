@@ -4,11 +4,15 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 
 public class PlayerController : MonoBehaviour
 {
+
+    float score;
+
     public float moveSpeed; 
     public float jumpForce = 10f; 
     public float JumpIncrease = 4.0f; 
@@ -101,6 +105,8 @@ public class PlayerController : MonoBehaviour
 
         if (InvincibleTimerUI != null)
             InvincibleTimerUI.SetActive(false);
+
+        score = 1000f;
     }
 
 
@@ -288,8 +294,8 @@ public class PlayerController : MonoBehaviour
                     Invoke("SprintE1", 0.03f);
                 }
              }
-            
 
+        score -= Time.deltaTime;
     }
        void SprintE1()
        {
@@ -314,6 +320,8 @@ public class PlayerController : MonoBehaviour
         if(collision.CompareTag("Finish"))
         {
             collision.GetComponent<LevelObject>().MoveToNextLevel();
+
+            HighScore.Tryset(SceneManager.GetActiveScene().buildIndex, (int)score);
         }
 
         if (collision.CompareTag("Enemy"))
