@@ -19,25 +19,26 @@ public class RankPage : MonoBehaviour
     {
 
         allData = StageResultSaver.LoadRank();
-        RefreshRankList();
+        RefreshRankList(1);
     }
 
-    void RefreshRankList()
+    public void RefreshRankList(int idx)
     {
-       foreach(Transform child in contentRoot)
+        foreach (Transform child in contentRoot)
         {
             Destroy(child.gameObject);
         }
 
 
-        var sortedData = allData.results.Where(r => r.stage == 1).OrderByDescending(x => x.score).ToList();
+        var sortedData1 = allData.results.Where(r => r.stage == idx).OrderByDescending(x => x.score).ToList();
 
 
-        for(int i = 0; i < sortedData.Count; i++)
+        for (int i = 0; i < sortedData1.Count; i++)
         {
             GameObject row = Instantiate(rowPrefab, contentRoot);
             TMP_Text rankText = row.GetComponentInChildren<TMP_Text>();
-            rankText.text = $"{i + 1}. {sortedData[i].playerName} - {sortedData[i].score}";
+            rankText.text = $"stage {idx} : {i + 1}. {sortedData1[i].playerName} - {sortedData1[i].score}";
         }
-    } 
-}
+        
+    }
+}   
