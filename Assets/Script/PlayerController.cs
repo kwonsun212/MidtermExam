@@ -319,9 +319,13 @@ public class PlayerController : MonoBehaviour
 
         if(collision.CompareTag("Finish"))
         {
+
+            StageResultSaver.SaveStage(SceneManager.GetActiveScene().buildIndex, (int)score);
             collision.GetComponent<LevelObject>().MoveToNextLevel();
 
-            HighScore.Tryset(SceneManager.GetActiveScene().buildIndex, (int)score);
+            // HighScore.Tryset(SceneManager.GetActiveScene().buildIndex, (int)score);
+
+           
         }
 
         if (collision.CompareTag("Enemy"))
