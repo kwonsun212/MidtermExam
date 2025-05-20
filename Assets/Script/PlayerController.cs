@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 
-    float score;
+    public float score;
 
     public float moveSpeed; 
     public float jumpForce = 10f; 
@@ -363,6 +363,8 @@ public class PlayerController : MonoBehaviour
             if (JumpTimerUI != null)
                 JumpTimerUI.SetActive(true);
 
+            score += collision.GetComponent<ItemObject>().GetPoint();
+
             Destroy(collision.gameObject);
         }
         if (collision.CompareTag("Item_Speed"))
@@ -374,6 +376,8 @@ public class PlayerController : MonoBehaviour
             if (SpeedTimerUI != null)
                 SpeedTimerUI.SetActive(true);
 
+            score += collision.GetComponent<ItemObject>().GetPoint();
+
             Destroy(collision.gameObject);
         }
         if (collision.CompareTag("Item_Invincible"))
@@ -383,8 +387,13 @@ public class PlayerController : MonoBehaviour
 
             if (InvincibleTimerUI != null)
                 InvincibleTimerUI.SetActive(true);
+            score += collision.GetComponent<ItemObject>().GetPoint();
 
             Destroy(collision.gameObject);
         }
+        
+        
+
+        
     }
 }
